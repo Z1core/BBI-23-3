@@ -1,0 +1,56 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\temar\\source\\repos\\BBI-23-3\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C7E7B378-0E0B-469B-8AB5-F0CFC80A0288}|lab_6_1\\lab_6_1.csproj|c:\\users\\temar\\source\\repos\\bbi-23-3\\lab_6_1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7E7B378-0E0B-469B-8AB5-F0CFC80A0288}|lab_6_1\\lab_6_1.csproj|solutionrelative:lab_6_1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\b804\\Downloads\\6th_lab_example_23-3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\temar\\source\\repos\\BBI-23-3\\lab_6_1\\Program.cs",
+              "RelativeDocumentMoniker": "lab_6_1\\Program.cs",
+              "ToolTip": "C:\\Users\\temar\\source\\repos\\BBI-23-3\\lab_6_1\\Program.cs",
+              "RelativeToolTip": "lab_6_1\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-24T08:53:45.911Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "6th_lab_example_23-3.cs",
+              "DocumentMoniker": "C:\\Users\\b804\\Downloads\\6th_lab_example_23-3.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\b804\\Downloads\\6th_lab_example_23-3.cs",
+              "ToolTip": "C:\\Users\\b804\\Downloads\\6th_lab_example_23-3.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\b804\\Downloads\\6th_lab_example_23-3.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-16T09:45:51.099Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
