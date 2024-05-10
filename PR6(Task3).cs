@@ -1,21 +1,28 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public struct FootballTeam
 {
-    public string Name;
-    public int GoalsScored;
-    public int GoalsConceded;
-    public int Points;
-    public FootballTeam(string name, int goalsScored, int goalsConceded, int points)
+    public string Name { get; private set; } // Сделал объявления св-ва приватным
+    public int GoalsScored { get; private set; } // Сделал объявления св-ва приватным
+    public int GoalsConceded { get; private set; } // Сделал объявления св-ва приватным
+    public int Points { get; private set; } // Сделал объявления св-ва приватным
+
+    public FootballTeam(string name, int goalsScored, int goalsConceded, int points) // Добавил конструктор для FootballTeam
     {
         Name = name;
         GoalsScored = goalsScored;
         GoalsConceded = goalsConceded;
         Points = points;
     }
+
+    public void PrintResults()
+    {
+        Console.WriteLine($"Команда: {Name}, Забито голов: {GoalsScored}, Пропущено голов: {GoalsConceded}, Очки: {Points}");
+    }
 }
+
 public class Program
 {
     static void PrintResultsTable(List<FootballTeam> teams)
@@ -26,10 +33,12 @@ public class Program
         int position = 1;
         foreach (var team in teams)
         {
-            Console.WriteLine($"Место: {position}, Команда: {team.Name}, Очки: {team.Points}");
+            Console.WriteLine($"Место: {position}");
+            team.PrintResults();
             position++;
         }
     }
+
     static void Main(string[] args)
     {
         List<FootballTeam> teams = new List<FootballTeam>
@@ -40,6 +49,7 @@ public class Program
             new FootballTeam("Команда4", 4, 9, 3),
             new FootballTeam("Команда5", 7, 6, 7)
         };
+
         PrintResultsTable(teams);
     }
 }
