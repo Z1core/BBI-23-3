@@ -1,13 +1,22 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public struct Student
 {
-    public string Name;
-    public int MathGrade;
-    public int PhysicsGrade;
-    public int RussianGrade;
+    public string Name { get; private set; } // Сделал объявления св-ва приватным
+    public int MathGrade { get; private set; } // Сделал объявления св-ва приватным
+    public int PhysicsGrade { get; private set; } // Сделал объявления св-ва приватным
+    public int RussianGrade { get; private set; } // Сделал объявления св-ва приватным
+
+    public Student(string name, int mathGrade, int physicsGrade, int russianGrade) // Добавил конструктор для Student
+    {
+        Name = name;
+        MathGrade = mathGrade;
+        PhysicsGrade = physicsGrade;
+        RussianGrade = russianGrade;
+    }
+
     public double CalculateAverageGrade()
     {
         return (MathGrade + PhysicsGrade + RussianGrade) / 3.0;
@@ -31,11 +40,11 @@ public class Program
     {
         List<Student> students = new List<Student>
         {
-            new Student { Name = "Иванов", MathGrade = 4, PhysicsGrade = 5, RussianGrade = 3 },
-            new Student { Name = "Петров", MathGrade = 5, PhysicsGrade = 4, RussianGrade = 5 },
-            new Student { Name = "Сидоров", MathGrade = 3, PhysicsGrade = 4, RussianGrade = 4 },
-            new Student { Name = "Смирнов", MathGrade = 4, PhysicsGrade = 3, RussianGrade = 5 },
-            new Student { Name = "Кузнецов", MathGrade = 5, PhysicsGrade = 5, RussianGrade = 4 }
+            new Student("Иванов", 4, 5, 3),
+            new Student("Петров", 5, 4, 5),
+            new Student("Сидоров", 3, 4, 4),
+            new Student("Смирнов", 4, 3, 5),
+            new Student("Кузнецов", 5, 5, 4)
         };
 
         PrintSuccessfulStudents(students);
