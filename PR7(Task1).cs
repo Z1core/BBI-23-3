@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public abstract class Participant
 {
-    public string Name { get; set; }
-    public bool Disqualified { get; set; }
+    public string Name { get; private set; }
+    public bool Disqualified { get; private set; }
 
     public Participant(string name)
     {
@@ -18,7 +18,7 @@ public abstract class Participant
 
 public class JumpParticipant : Participant
 {
-    public double BestJump { get; set; }
+    public double BestJump { get; private set; }
 
     public JumpParticipant(string name, double bestJump) : base(name)
     {
