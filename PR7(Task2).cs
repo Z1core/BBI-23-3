@@ -1,27 +1,29 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public abstract class Person
 {
-    public string Name { get; set; }
-    public int ID { get; set; }
+    public string Name { get; private set; }
+    public int ID { get; private set; }
+    private static int nextID = 1;
 
-    public Person(string name, int id)
+    public Person(string name)
     {
         Name = name;
-        ID = id;
+        ID = nextID++;
     }
+
     public abstract double CalculateAverageGrade();
 }
 
 public class Student : Person
 {
-    public int MathGrade { get; set; }
-    public int PhysicsGrade { get; set; }
-    public int RussianGrade { get; set; }
+    public int MathGrade { get; private set; }
+    public int PhysicsGrade { get; private set; }
+    public int RussianGrade { get; private set; }
 
-    public Student(string name, int id, int mathGrade, int physicsGrade, int russianGrade) : base(name, id)
+    public Student(string name, int mathGrade, int physicsGrade, int russianGrade) : base(name)
     {
         MathGrade = mathGrade;
         PhysicsGrade = physicsGrade;
@@ -52,11 +54,11 @@ public class Program
     {
         List<Student> students = new List<Student>
         {
-            new Student("Иванов", 1, 4, 5, 3),
-            new Student("Петров", 2, 5, 4, 5),
-            new Student("Сидоров", 3, 3, 4, 4),
-            new Student("Смирнов", 4, 4, 3, 5),
-            new Student("Кузнецов", 5, 5, 5, 4)
+            new Student("Иванов", 4, 5, 3),
+            new Student("Петров", 5, 4, 5),
+            new Student("Сидоров", 3, 4, 4),
+            new Student("Смирнов", 4, 3, 5),
+            new Student("Кузнецов", 5, 5, 4)
         };
         PrintSuccessfulStudents(students);
     }
