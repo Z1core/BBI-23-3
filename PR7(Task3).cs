@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public abstract class FootballTeam
 {
-    public string Name { get; set; }
-    public int Points { get; set; }
+    public string Name { get; private set; }
+    public int Points { get; protected set; }
 
     public FootballTeam(string name, int points)
     {
@@ -13,7 +12,7 @@ public abstract class FootballTeam
         Points = points;
     }
 
-    public abstract void PlayMatch();
+    public abstract void PlayMatch(FootballTeam opponent, int ownGoals, int opponentGoals);
 }
 
 public class WomenFootballTeam : FootballTeam
@@ -21,9 +20,15 @@ public class WomenFootballTeam : FootballTeam
     public WomenFootballTeam(int teamNumber, int points) : base($"Женская команда {teamNumber}", points)
     {
     }
-    public override void PlayMatch()
+
+    public override void PlayMatch(FootballTeam opponent, int ownGoals, int opponentGoals)
     {
-        Console.WriteLine($"Матч для женской команды {Name} проведен.");
+        UpdateStats(ownGoals, opponentGoals);
+    }
+
+    private void UpdateStats(int ownGoals, int opponentGoals)
+    {
+        Points += ownGoals > opponentGoals ? 3 : ownGoals == opponentGoals ? 1 : 0;
     }
 }
 
@@ -32,36 +37,44 @@ public class MenFootballTeam : FootballTeam
     public MenFootballTeam(int teamNumber, int points) : base($"Мужская команда {teamNumber}", points)
     {
     }
-    public override void PlayMatch()
+
+    public override void PlayMatch(FootballTeam opponent, int ownGoals, int opponentGoals)
     {
-        Console.WriteLine($"Матч для мужской команды {Name} проведен.");
+        UpdateStats(ownGoals, opponentGoals);
+    }
+
+    private void UpdateStats(int ownGoals, int opponentGoals)
+    {
+        Points += ownGoals > opponentGoals ? 3 : ownGoals == opponentGoals ? 1 : 0;
     }
 }
 
 public class Program
 {
+    static Random random = new Random();
+
     static void PrintResultsTable(List<FootballTeam> teams)
     {
-        teams = teams.OrderByDescending(team => team.Points).ToList();
+        teams.Sort((team1, team2) => team2.Points.CompareTo(team1.Points));
 
         Console.WriteLine("Таблица результатов:");
-        int position = 1;
-        foreach (var team in teams)
+        for (int i = 0; i < teams.Count; i++)
         {
-            string gender = GetGender(team);
-            Console.WriteLine($"{position}. {team.Name} {gender} команда {team.Points} баллов");
-            position++;
+            Console.WriteLine($"{i + 1}. {teams[i].Name} команда {teams[i].Points} баллов");
         }
     }
 
-    static string GetGender(FootballTeam team)
+    static void PlayMatches(List<FootballTeam> teams)
     {
-        if (team is WomenFootballTeam)
-            return "женская";
-        else if (team is MenFootballTeam)
-            return "мужская";
-        else
-            return "";
+        for (int i = 0; i < teams.Count; i++)
+        {
+            for (int j = i + 1; j < teams.Count; j++)
+            {
+                int ownGoals = random.Next(6);
+                int opponentGoals = random.Next(6);
+                teams[i].PlayMatch(teams[j], ownGoals, opponentGoals);
+            }
+        }
     }
 
     static void Main(string[] args)
@@ -70,25 +83,24 @@ public class Program
 
         List<FootballTeam> womenTeams = new List<FootballTeam>
         {
-            new WomenFootballTeam(1, 13),
-            new WomenFootballTeam(2, 10),
-            new WomenFootballTeam(3, 11),
-            new WomenFootballTeam(4, 9),
-            new WomenFootballTeam(5, 12),
+            new WomenFootballTeam(1, 0),
+            new WomenFootballTeam(2, 0),
+            new WomenFootballTeam(3, 0),
+            new WomenFootballTeam(4, 0),
         };
 
         List<FootballTeam> menTeams = new List<FootballTeam>
         {
-            new MenFootballTeam(6, 15),
-            new MenFootballTeam(7, 10),
-            new MenFootballTeam(8, 9),
-            new MenFootballTeam(9, 8),
-            new MenFootballTeam(10, 12),
+            new MenFootballTeam(1, 0),
+            new MenFootballTeam(2, 0),
+            new MenFootballTeam(3, 0),
+            new MenFootballTeam(4, 0),
         };
 
         allTeams.AddRange(womenTeams);
         allTeams.AddRange(menTeams);
 
+        PlayMatches(allTeams);
         PrintResultsTable(allTeams);
     }
 }
