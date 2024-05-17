@@ -13,6 +13,17 @@ public abstract class FootballTeam
     }
 
     public abstract void PlayMatch(FootballTeam opponent, int ownGoals, int opponentGoals);
+
+    public static FootballTeam[] CombineAndSortTeams(List<FootballTeam> teams)
+    {
+        teams.Sort((team1, team2) => team2.Points.CompareTo(team1.Points));
+        return teams.ToArray();
+    }
+
+    protected virtual void UpdateStats(int ownGoals, int opponentGoals)
+    {
+        Points += ownGoals > opponentGoals ? 3 : ownGoals == opponentGoals ? 1 : 0;
+    }
 }
 
 public class WomenFootballTeam : FootballTeam
@@ -26,9 +37,9 @@ public class WomenFootballTeam : FootballTeam
         UpdateStats(ownGoals, opponentGoals);
     }
 
-    private void UpdateStats(int ownGoals, int opponentGoals)
+    protected override void UpdateStats(int ownGoals, int opponentGoals)
     {
-        Points += ownGoals > opponentGoals ? 3 : ownGoals == opponentGoals ? 1 : 0;
+        Points += ownGoals > opponentGoals ? 3 : ownGoals == opponentGoals ? 2 : 0;
     }
 }
 
@@ -42,11 +53,6 @@ public class MenFootballTeam : FootballTeam
     {
         UpdateStats(ownGoals, opponentGoals);
     }
-
-    private void UpdateStats(int ownGoals, int opponentGoals)
-    {
-        Points += ownGoals > opponentGoals ? 3 : ownGoals == opponentGoals ? 1 : 0;
-    }
 }
 
 public class Program
@@ -55,16 +61,15 @@ public class Program
 
     static void PrintResultsTable(List<FootballTeam> teams)
     {
-        teams.Sort((team1, team2) => team2.Points.CompareTo(team1.Points));
-
+        FootballTeam[] sortedTeams = FootballTeam.CombineAndSortTeams(teams);
         Console.WriteLine("Таблица результатов:");
-        for (int i = 0; i < teams.Count; i++)
+        for (int i = 0; i < sortedTeams.Length; i++)
         {
-            Console.WriteLine($"{i + 1}. {teams[i].Name} команда {teams[i].Points} баллов");
+            Console.WriteLine($"{i + 1}. {sortedTeams[i].Name} команда {sortedTeams[i].Points} баллов");
         }
     }
 
-    static void PlayMatches(List<FootballTeam> teams)
+    static void PlayMatchesWithinGroup(List<FootballTeam> teams)
     {
         for (int i = 0; i < teams.Count; i++)
         {
@@ -75,6 +80,12 @@ public class Program
                 teams[i].PlayMatch(teams[j], ownGoals, opponentGoals);
             }
         }
+    }
+
+    static void PlayMatches(List<FootballTeam> womenTeams, List<FootballTeam> menTeams)
+    {
+        PlayMatchesWithinGroup(womenTeams);
+        PlayMatchesWithinGroup(menTeams);
     }
 
     static void Main(string[] args)
@@ -100,7 +111,7 @@ public class Program
         allTeams.AddRange(womenTeams);
         allTeams.AddRange(menTeams);
 
-        PlayMatches(allTeams);
+        PlayMatches(womenTeams, menTeams);
         PrintResultsTable(allTeams);
     }
 }
