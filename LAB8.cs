@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
@@ -14,10 +14,46 @@ public interface ITextDecoder { string DecompressText(string compressedText, Dic
 // Реализации
 public class ReverseWordEncryptionService : IEncryptionService
 {
-    public string Encrypt(string message) => string.Join(" ", message.Split(' ').Select(Reverse));
+    public string Encrypt(string message) => string.Join(" ", SplitByPunctuation(message).Select(Reverse));
     public string Decrypt(string message) => Encrypt(message);
     private string Reverse(string input) => new string(input.Reverse().ToArray());
+
+    private IEnumerable<string> SplitByPunctuation(string message)
+    {
+        var punctuation = new HashSet<char>(new[] { '.', ',', '!', '?', ';', ':', '-', '—', '(', ')' }); // Добавьте другие знаки препинания при необходимости
+        string currentWord = "";
+        foreach (char c in message)
+        {
+            if (char.IsWhiteSpace(c))
+            {
+                if (!string.IsNullOrEmpty(currentWord))
+                {
+                    yield return currentWord;
+                    currentWord = "";
+                }
+                yield return c.ToString();
+            }
+            else if (punctuation.Contains(c))
+            {
+                if (!string.IsNullOrEmpty(currentWord))
+                {
+                    yield return currentWord;
+                    currentWord = "";
+                }
+                yield return c.ToString();
+            }
+            else
+            {
+                currentWord += c;
+            }
+        }
+        if (!string.IsNullOrEmpty(currentWord))
+        {
+            yield return currentWord;
+        }
+    }
 }
+
 
 public class SentenceComplexityCalculator : IComplexityCalculator
 {
