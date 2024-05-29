@@ -14,46 +14,40 @@ public interface ITextDecoder { string DecompressText(string compressedText, Dic
 // Реализации
 public class ReverseWordEncryptionService : IEncryptionService
 {
-    public string Encrypt(string message) => string.Join(" ", SplitByPunctuation(message).Select(Reverse));
+    public string Encrypt(string message) => string.Join(" ", message.Split(' ').Select(ReverseWordPreservingPunctuation));
     public string Decrypt(string message) => Encrypt(message);
-    private string Reverse(string input) => new string(input.Reverse().ToArray());
 
-    private IEnumerable<string> SplitByPunctuation(string message)
+    private string ReverseWordPreservingPunctuation(string word)
     {
-        var punctuation = new HashSet<char>(new[] { '.', ',', '!', '?', ';', ':', '-', '—', '(', ')' }); // Добавьте другие знаки препинания при необходимости
-        string currentWord = "";
-        foreach (char c in message)
+        char[] chars = word.ToCharArray();
+        char[] result = new char[chars.Length];
+        int left = 0;
+        int right = chars.Length - 1;
+
+        while (left <= right)
         {
-            if (char.IsWhiteSpace(c))
+            if (!char.IsLetter(chars[left]))
             {
-                if (!string.IsNullOrEmpty(currentWord))
-                {
-                    yield return currentWord;
-                    currentWord = "";
-                }
-                yield return c.ToString();
+                result[left] = chars[left];
+                left++;
             }
-            else if (punctuation.Contains(c))
+            else if (!char.IsLetter(chars[right]))
             {
-                if (!string.IsNullOrEmpty(currentWord))
-                {
-                    yield return currentWord;
-                    currentWord = "";
-                }
-                yield return c.ToString();
+                result[right] = chars[right];
+                right--;
             }
             else
             {
-                currentWord += c;
+                result[left] = chars[right];
+                result[right] = chars[left];
+                left++;
+                right--;
             }
         }
-        if (!string.IsNullOrEmpty(currentWord))
-        {
-            yield return currentWord;
-        }
+
+        return new string(result);
     }
 }
-
 
 public class SentenceComplexityCalculator : IComplexityCalculator
 {
@@ -193,7 +187,7 @@ public class Задание3 : Задание
     public Задание3(string название, ISyllableCounter syllableCounter) : base(название) { _syllableCounter = syllableCounter; }
     public override void Выполнить()
     {
-        string text = "После многолетних исследований ученые обнаружили тревожную тенденцию в вырубке лесов Амазонии. Анализ данных показал, что основной участник разрушения лесного покрова – человеческая деятельность. За последние десятилетия рост объема вырубки достиг критических показателей. Главными факторами, способствующими этому, являются промышленные рубки, производство древесины, расширение сельскохозяйственных угодий и незаконная добыча древесины. Это приводит к серьезным экологическим последствиям, таким как потеря биоразнообразия, ухудшение климата и угроза вымирания многих видов животных и растений. ";
+        string text = "После многолетних исследований ученые обнаружили тревожную тенденцию в вырубке лесов Амазонии. Анализ данных показал, что основной участник разрушения лесного покрова – человеческая деятельность. За последние десятилетия рост объема вырубки достиг критических показателей. Главными факторами, способствующими этому, являются промышленные рубки, производство древесины, расширение сельскохозяйственных угодий и незаконная добыча древесины. Это приводит к серьезным экологическим последствиям, таким как потеря биоразнообразия, ухудшение климата и угроза вымирания многих видов животных и растений.";
         var syllableCounts = _syllableCounter.CountSyllables(text);
 
         Console.WriteLine($"Текст: {text}");
